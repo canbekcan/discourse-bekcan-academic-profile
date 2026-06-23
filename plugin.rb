@@ -1,3 +1,9 @@
+# name: discourse-bekcan-academic-profile
+# about: Academic profile fields for users
+# version: 0.1
+# authors: Can Bekcan
+# url: https://github.com/canbekcan/discourse-bekcan-academic-profile
+
 after_initialize do
   # Apply x02d rule: Explicit array structure for sub_fields instead of straight symbol
   add_permitted_user_update_param(:academic_title)
