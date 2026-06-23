@@ -28,12 +28,12 @@ after_initialize do
     ::DiscourseBekcanAcademicProfile::UserFieldBuilder.new.call
   end
   
-  # Otomatik grup atama event'leri
+  # Otomatik çoklu grup atama event'leri
   DiscourseEvent.on(:user_updated) do |user|
-    ::DiscourseBekcanAcademicProfile::AssignProfessorGroup.new.call(user: user)
+    ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user)
   end
 
   DiscourseEvent.on(:user_created) do |user|
-    ::DiscourseBekcanAcademicProfile::AssignProfessorGroup.new.call(user: user)
+    ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user)
   end
 end

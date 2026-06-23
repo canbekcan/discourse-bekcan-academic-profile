@@ -6,6 +6,6 @@ plugins:
     default: "Profesör (Prof. Dr.)|Doçent (Doç. Dr.)|Doktor Öğretim Üyesi (Dr. Öğr. Üyesi)|Öğretim Görevlisi (Öğr. Gör.)|Araştırma Görevlisi (Arş. Gör.)|Uzman Doktor (Uzm. Dr.)|Doktora Öğrencisi / Adayı|Yüksek Lisans Mezunu / Öğrencisi"
     type: list
     client: true
-  professor_auto_group_id:
-    default: -1
-    type: integer
+  # professor_auto_group_id:
+    # default: -1
+    # type: integer

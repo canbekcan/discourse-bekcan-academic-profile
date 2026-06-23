@@ -1,0 +1,10 @@
+tr_TR:
+  bekcan_academic_profile:
+    title: "Akademik Profil"
+    user_fields:
+      academic_title_desc: "Akademik Ünvanınız"
+      academic_field_desc: "Akademik Alanınız"
+      scientific_disciplines_desc: "Çalıştığınız Bilim Dalları"
+  site_settings:
+    bekcan_academic_profile_enabled: "Akademik profil eklenti özelliklerini ve otomasyonlarını aktif et."
+    bekcan_academic_titles: "Dropdown menüde listelenecek akademik ünvanlar (Aralarına | koyarak yazınız)."

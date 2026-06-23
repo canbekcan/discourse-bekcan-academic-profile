@@ -1,47 +1,44 @@
 module ::DiscourseBekcanAcademicProfile
   class UserFieldBuilder
-    
-    # Türkiye Cumhuriyeti Yükseköğretim mevzuatına uygun tüm akademik ünvanlar
-    ACADEMIC_TITLES = [
-      "Profesör (Prof. Dr.)",
-      "Doçent (Doç. Dr.)",
-      "Doktor Öğretim Üyesi (Dr. Öğr. Üyesi)",
-      "Öğretim Görevlisi (Öğr. Gör.)",
-      "Araştırma Görevlisi (Arş. Gör.)",
-      "Uzman Doktor (Uzm. Dr.)",
-      "Doktora Öğrencisi / Adayı",
-      "Yüksek Lisans Mezunu / Öğrencisi"
-    ].freeze
-
     def call
       return unless SiteSetting.bekcan_academic_profile_enabled
 
-      # Çoklu sunucu/proses ortamlarında eşzamanlı (race condition) kayıt açılmasını engellemek için kilit mekanizması
-      DistributedMutex.synchronize("bekcan_academic_title_field_init") do
+      DistributedMutex.synchronize("bekcan_academic_fields_init") do
         ActiveRecord::Base.transaction do
           
-          # ID bağımsız aramayı alanın sistem adına (name) göre yapıyoruz
+          # 1. Akademik Ünvan
           title_field = UserField.find_or_create_by!(name: "academic_title") do |f|
             f.field_type = "dropdown"
-            f.description = "Akademik Ünvanınız"
-            f.required = false      # Kayıtta zorunlu olmasın (isteğe bağlı)
-            f.editable = true       # KRİTİK: Üyeler profillerinden kendileri değiştirebilir
-            f.show_on_profile = true # Profil sayfasında gösterilsin
-            f.show_on_user_card = true # Kullanıcı kartında kartvizit gibi gösterilsin
+            f.description = I18n.t("bekcan_academic_profile.user_fields.academic_title_desc", default: "Akademik Ünvan")
+            f.editable = true
+            f.show_on_profile = true
+            f.show_on_user_card = true
           end
 
-          # Dropdown seçeneklerini senkronize etme adımı
-          ACADEMIC_TITLES.each do |title_name|
-            UserFieldOption.find_or_create_by!(
-              user_field_id: title_field.id,
-              value: title_name
-            )
+          configured_titles = SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?)
+          configured_titles.each { |title_name| UserFieldOption.find_or_create_by!(user_field_id: title_field.id, value: title_name) }
+          UserFieldOption.where(user_field_id: title_field.id).each { |opt| opt.destroy! unless configured_titles.include?(opt.value) }
+
+          # 2. Akademik Alan
+          UserField.find_or_create_by!(name: "academic_field") do |f|
+            f.field_type = "dropdown"
+            f.description = I18n.t("bekcan_academic_profile.user_fields.academic_field_desc", default: "Akademik Alan")
+            f.editable = true
+            f.show_on_profile = true
           end
-          
+
+          # 3. Bilim Dalları
+          UserField.find_or_create_by!(name: "scientific_disciplines") do |f|
+            f.field_type = "text" # Discourse standart text kullanır, UI tarafında çoklu seçime çevrilir
+            f.description = I18n.t("bekcan_academic_profile.user_fields.scientific_disciplines_desc", default: "Bilim Dalları")
+            f.editable = true
+            f.show_on_profile = true
+          end
+
         end
       end
     rescue StandardError => e
-      Discourse.warn_exception(e, message: "Academic title user-field sync failed.")
+      Discourse.warn_exception(e, message: "Academic fields build failed.")
     end
   end
 end
