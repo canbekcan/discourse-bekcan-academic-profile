@@ -1,0 +1,7 @@
+en:
+  academic_profile:
+    fields:
+      academic_title: "Academic Title"
+      main_field: "Main Field of Study"
+      sub_fields: "Sub-fields"
+      orcid_id: "ORCID iD"
