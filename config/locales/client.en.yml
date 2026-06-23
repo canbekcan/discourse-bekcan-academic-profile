@@ -1,0 +1,8 @@
+en:
+  js:
+    bekcan_academic_profile:
+      title: "Akademik Profil"
+    admin:
+      plugins:
+        bekcan_academic_profile:
+          title: "Akademik Profil"

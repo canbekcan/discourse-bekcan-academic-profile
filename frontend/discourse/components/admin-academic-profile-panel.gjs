@@ -15,11 +15,11 @@ export default class AdminAcademicProfilePanel extends Component {
     this.syncSuccess = false;
 
     try {
-      // Backend API'ye el ile tetikleme isteği gönderir
+      // Endpoint'in /admin/plugins/academic-profile/sync olduğuna emin olun
       await ajax("/admin/plugins/academic-profile/sync", { type: "POST" });
       this.syncSuccess = true;
     } catch (error) {
-      // Hatalar Discourse Ajax katmanı tarafından global bildirim (Toast) ile ele alınır
+      // Hatalar sistem tarafından toast olarak gösterilir
     } finally {
       this.isSyncing = false;
     }
