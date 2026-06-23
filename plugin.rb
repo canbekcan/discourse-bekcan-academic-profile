@@ -6,16 +6,13 @@
 
 
 after_initialize do
-  # Fix: Ensure the class is loaded before use
-  require_dependency 'user_custom_field_definition'
-
+  # Removed require_dependency - it causes LoadError for core models
+  
   [:academic_title, :main_field, :orcid_id, :sub_fields].each do |field_name|
-    # Connect or Create field
-    UserCustomFieldDefinition.find_or_create_by(name: field_name.to_s) do |f|
+    # Use :: to force global scope resolution
+    ::UserCustomFieldDefinition.find_or_create_by(name: field_name.to_s) do |f|
       f.field_type = 'text'
     end
-    
-    # Whitelist for parameter updates
     register_user_custom_field_key(field_name)
   end
 
