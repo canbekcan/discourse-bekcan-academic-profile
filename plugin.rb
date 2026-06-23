@@ -4,13 +4,18 @@
 # authors: Can Bekcan
 # url: https://github.com/canbekcan/discourse-bekcan-academic-profile
 
+
 after_initialize do
-  # Fix: Use :: for top-level constant resolution
+  # Fix: Ensure the class is loaded before use
+  require_dependency 'user_custom_field_definition'
+
   [:academic_title, :main_field, :orcid_id, :sub_fields].each do |field_name|
-    ::UserCustomFieldDefinition.find_or_create_by(name: field_name.to_s) do |f|
+    # Connect or Create field
+    UserCustomFieldDefinition.find_or_create_by(name: field_name.to_s) do |f|
       f.field_type = 'text'
     end
-    # Correct API to register fields for params whitelisting
+    
+    # Whitelist for parameter updates
     register_user_custom_field_key(field_name)
   end
 
