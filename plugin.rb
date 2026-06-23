@@ -9,7 +9,14 @@ enabled_site_setting :bekcan_academic_profile_enabled
 
 require_relative "lib/discourse_bekcan_academic_profile/engine"
 
+add_admin_route "admin.plugins.bekcan_academic_profile.title", "academic-profile"
+
 after_initialize do
+  # Multisite ve veritabanı kontrolü sonrası güvenli başlatma
+  if ActiveRecord::Base.connection.table_exists?('user_fields')
+    # Veritabanı çakışmalarını ve mükerrer kayıtları önleyen servis nesnesini çağır
+    ::DiscourseBekcanAcademicProfile::UserFieldBuilder.new.call
+  end
   # Adım 05 & 06: Veritabanı Özel Alan (Custom Field) Kontrolü
   def setup_academic_user_fields
     # 1. academic_title (Dropdown)

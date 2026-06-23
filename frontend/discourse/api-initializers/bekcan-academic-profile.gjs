@@ -16,7 +16,17 @@ export default {
         // Alanlar değiştiğinde tetiklenen observer yapısını simüle etmek için setter/getter
         didReceiveAttrs() {
           this._super(...arguments);
-          this.filterDisciplines();
+          this._ensureAcademicTitleState();
+        },
+
+        _ensureAcademicTitleState() {
+          if (!this.userFields) return;
+          
+          const academicField = this.userFields.findBy("name", "academic_title");
+          if (academicField) {
+            // Alanın arayüzde 'editable' (düzenlenebilir) olduğu client state üzerinde de onaylanır
+            academicField.set("editable", true);
+          }
         },
 
         actions: {
