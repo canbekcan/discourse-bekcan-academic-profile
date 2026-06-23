@@ -1,0 +1,7 @@
+plugins:
+  bekcan_academic_profile_enabled:
+    default: true
+    client: true
+  professor_auto_group_id:
+    default: -1
+    type: integer
