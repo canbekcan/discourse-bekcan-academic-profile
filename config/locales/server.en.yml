@@ -1,0 +1,9 @@
+en:
+  admin:
+    plugins:
+      bekcan_academic_profile:
+        title: "Akademik Profil"
+  site_settings:
+    bekcan_academic_profile_enabled: "Akademik profil eklenti özelliklerini aktif et."
+    bekcan_academic_titles: "Dropdown menüde listelenecek akademik ünvanlar (Aralarına | koyarak yazınız)."
+    professor_auto_group_id: "Profesör ünvanını seçen kullanıcıların otomatik atanacağı Grup ID'si."
