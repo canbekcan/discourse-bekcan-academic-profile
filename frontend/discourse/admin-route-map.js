@@ -1,4 +1,4 @@
 /** @ts-check */
-export default function (api) {
-  api.registerAdminRoute("academic-profile", "admin-plugins-academic-profile");
+export default function () {
+  this.route("academic-profile");
 }
