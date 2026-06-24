@@ -4,9 +4,9 @@ en:
       title: "Academic Profile"
       admin:
         panel_title: "Academic Profile & Group Automation"
-        info_html: "Titles below are fetched from the <strong>bekcan_academic_titles</strong> site setting. You can assign multiple groups to each title like selecting tags."
-        sync_button: "Sync Settings to Database"
-        sync_success: "✓ Settings and group mappings (PluginStore) successfully updated!"
+        info_html: "Titles below are fetched from the <strong>bekcan_academic_titles</strong> site setting. You can assign multiple groups to each title."
+        sync_button: "Sync Settings and Groups to Database"
+        sync_success: "✓ Success! Groups and profile fields updated."
     admin:
       plugins:
         bekcan_academic_profile:

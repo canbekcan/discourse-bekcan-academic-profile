@@ -9,5 +9,5 @@ en:
       scientific_disciplines_name: "Scientific Disciplines"
       scientific_disciplines_desc: "Select your scientific disciplines."
   site_settings:
-    bekcan_academic_profile_enabled: "Enable advanced academic profile features and automations."
-    bekcan_academic_titles: "Academic titles listed in the dropdown menu (separated by |)."
+    bekcan_academic_profile_enabled: "Enable advanced academic profile features."
+    bekcan_academic_titles: "Academic titles for the dropdown menu (separated by |)."

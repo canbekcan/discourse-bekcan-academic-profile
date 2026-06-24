@@ -52,7 +52,7 @@ export default class AdminAcademicProfilePanel extends Component {
       });
       this.syncSuccess = true;
     } catch (error) {
-      // discourse/lib/ajax handles toast errors automatically
+      // Hatalar toast mesajı olarak görünür
     } finally {
       this.isSyncing = false;
     }

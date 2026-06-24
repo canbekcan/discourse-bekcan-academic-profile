@@ -9,5 +9,5 @@ tr_TR:
       scientific_disciplines_name: "Bilim Dalları"
       scientific_disciplines_desc: "Çalıştığınız bilim dallarını seçiniz."
   site_settings:
-    bekcan_academic_profile_enabled: "Akademik profil eklenti özelliklerini ve otomasyonlarını aktif et."
-    bekcan_academic_titles: "Dropdown menüde listelenecek akademik ünvanlar (Aralarına | koyarak yazınız)."
+    bekcan_academic_profile_enabled: "Gelişmiş akademik profil özelliklerini ve otomasyonlarını aktif et."
+    bekcan_academic_titles: "Açılır menüde listelenecek akademik ünvanlar (Aralarına | koyarak yazınız)."
