@@ -1,5 +1,4 @@
 en:
-  admin:
-    plugins:
-      academic_profile:
-        title: "Academic Profile"
+  bekcan_academic_profile:
+    user_field:
+      description: "Academic Title"

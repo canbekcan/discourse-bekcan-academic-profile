@@ -1,5 +1,4 @@
 tr_TR:
-  admin:
-    plugins:
-      academic_profile:
-        title: "Akademik Profil"
+  bekcan_academic_profile:
+    user_field:
+      description: "Akademik Ünvan"

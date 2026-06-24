@@ -1,35 +1,51 @@
 # frozen_string_literal: true
 
-module ::DiscourseBekcanAcademicProfile
+module DiscourseBekcanAcademicProfile
   class AssignAcademicGroups
-    def call(user:)
-      return unless SiteSetting.bekcan_academic_profile_enabled
+    # Functional Service Object architecture
+    def self.call(user:, new_group_ids:)
+      new(user: user, new_group_ids: new_group_ids).call
+    end
 
-      title_field = UserField.find_by(name: "academic_title")
-      return unless title_field
+    def initialize(user:, new_group_ids:)
+      @user = user
+      @new_group_ids = Array(new_group_ids).map(&:to_i).reject(&:zero?)
+    end
 
-      # Kullanıcının profilindeki ünvan kodu (örn: "prof")
-      user_title_key = user.custom_fields["user_field_#{title_field.id}"]
-      return if user_title_key.blank?
-
-      # Admin panelinden PluginStore'a kaydedilen eşleşmeleri çek
-      mappings = PluginStore.get("bekcan_academic", "group_mappings") || {}
-      target_group_ids = mappings[user_title_key] || []
-      
-      # Yönetilen tüm grup IDlerini al (temizlik için)
-      all_managed_group_ids = mappings.values.flatten.uniq
-
-      groups_to_add = Group.where(id: target_group_ids)
-      groups_to_remove = Group.where(id: all_managed_group_ids - target_group_ids)
-
-      DistributedMutex.synchronize("assign_academic_groups_#{user.id}") do
+    def call
+      # Redis-backed distributed lock prevents concurrent assignment for the same user
+      DistributedMutex.synchronize("assign_academic_groups_#{@user.id}") do
         ActiveRecord::Base.transaction do
-          groups_to_add.each { |g| g.add(user) unless g.users.include?(user) }
-          groups_to_remove.each { |g| g.remove(user) if g.users.include?(user) }
+          process_group_assignment!
         end
       end
     rescue StandardError => e
-      Rails.logger.error("Academic Group Assignment Error: #{e.message}")
+      Discourse.warn_exception(e, message: "BekcanAcademicProfile: Failed to assign groups for User ID #{@user.id}")
+      false
+    end
+
+    private
+
+    def process_group_assignment!
+      current_group_ids = @user.groups.where(automatic: false).pluck(:id)
+      
+      groups_to_add = @new_group_ids - current_group_ids
+      groups_to_remove = current_group_ids - @new_group_ids
+
+      # Remove obsolete academic groups
+      if groups_to_remove.any?
+        GroupUser.where(user_id: @user.id, group_id: groups_to_remove).destroy_all
+      end
+
+      # Add new academic groups safely
+      groups_to_add.each do |group_id|
+        group = Group.find_by(id: group_id)
+        next unless group && !group.automatic
+
+        group.add(@user)
+      end
+
+      true
     end
   end
 end

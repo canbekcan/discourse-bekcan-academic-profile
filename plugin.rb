@@ -4,7 +4,7 @@
 # version: 1.4.0
 # authors: BEKCAN - Full-Stack Discourse Engineer
 # url: https://github.com/canbekcan/discourse-bekcan-academic-profile
-# required_version: 3.2.0
+# minimum_discourse_version: 3.2.0.beta1
 
 require_relative "lib/discourse_bekcan_academic_profile/engine"
 enabled_site_setting :bekcan_academic_profile_enabled
@@ -24,6 +24,9 @@ end
 
 # 3. Admin Paneli Linki (I18n anahtarı ile eşleşmeli)
 add_admin_route "admin.plugins.academic_profile.title", "academic-profile"
+
+# Register the admin stylesheet
+register_asset "stylesheets/admin/academic-profile.scss", :admin
 
 after_initialize do
   # 4. Engine rotalarının tanımı (Sadece engine içi özel rotalar)

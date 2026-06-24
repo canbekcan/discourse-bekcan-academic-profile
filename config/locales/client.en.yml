@@ -1,9 +1,4 @@
 en:
   js:
-    user:
-      user_fields:
-        academic_title: "Academic Title"
-  admin:
-    plugins:
-      academic_profile:
-        title: "Academic Profile"
+    bekcan_academic_profile:
+      title: "Academic Profile"
