@@ -25,5 +25,5 @@ en:
         msc_cand: "MSc Graduate / Student"
     admin:
       plugins:
-        bekcan_academic_profile:
+        academic_profile:
           title: "Academic Profile"

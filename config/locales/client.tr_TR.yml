@@ -17,3 +17,7 @@ tr_TR:
         asst_prof: "Doktor Öğretim Üyesi (Dr. Öğr. Üyesi)"
         lecturer: "Öğretim Görevlisi (Öğr. Gör.)"
         res_asst: "Araştırma Görevlisi (Arş. Gör.)"
+    admin:
+      plugins:
+        academic_profile:
+          title: "Akademik Profil"

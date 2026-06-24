@@ -10,22 +10,20 @@ import I18n from "discourse-i18n";
 export default class AdminAcademicProfilePanel extends Component {
   @tracked isSyncing = false;
   @tracked syncSuccess = false;
-  @tracked titleMappings = [];
-
-  constructor() {
-    super(...arguments);
+  
+  // Gelen model verisini işle
+  get titleMappings() {
     const titles = this.args.model.titles || [];
     const mappings = this.args.model.mappings || {};
-    this.titleMappings = titles.map(titleKey => ({
+    return titles.map(titleKey => ({
       key: titleKey,
-      displayName: I18n.t(`bekcan_academic_profile.titles.${titleKey}`, { defaultValue: titleKey }),
+      displayName: I18n.t(`js.bekcan_academic_profile.titles.${titleKey}`, { defaultValue: titleKey }),
       group_ids: mappings[titleKey] || []
     }));
   }
 
   @action updateGroups(mapping, newGroupIds) {
     mapping.group_ids = newGroupIds;
-    this.titleMappings = [...this.titleMappings];
   }
 
   @action async triggerSync() {
@@ -39,7 +37,7 @@ export default class AdminAcademicProfilePanel extends Component {
 
   <template>
     <div class="academic-profile-admin">
-      <h1>{{I18n "js.bekcan_academic_profile.admin.panel_title"}}</h1>
+      <h3>{{I18n "js.bekcan_academic_profile.admin.panel_title"}}</h3>
       {{#each this.titleMappings as |m|}}
         <div class="mapping">
           <label>{{m.displayName}}</label>
@@ -47,6 +45,7 @@ export default class AdminAcademicProfilePanel extends Component {
         </div>
       {{/each}}
       <DButton @action={{this.triggerSync}} @label={{I18n "js.bekcan_academic_profile.admin.sync_button"}} @disabled={{this.isSyncing}} />
+      {{if this.syncSuccess (I18n "js.bekcan_academic_profile.admin.sync_success")}}
     </div>
   </template>
 }
