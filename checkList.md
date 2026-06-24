@@ -13,15 +13,15 @@ Status: The file exists but is empty. Without a valid Rails::Engine declaration 
 [x] Problem 2: Blank Site Settings (Core/Frontend)
 File: config/settings.yml
 Status: The file is empty. Your site settings (e.g., bekcan_academic_profile_enabled) are missing, meaning the Ember frontend cannot read them (client: true), and the plugin cannot be toggled via the Discourse admin panel.
-[ ] Problem 3: Unimplemented Admin Controllers (Backend)
+[x] Problem 3: Unimplemented Admin Controllers (Backend)
 File: app/controllers/discourse_bekcan_academic_profile/academic_profile_controller.rb
 Status: The file is empty. The POST /sync API endpoint required by the frontend <Form> submission does not have a backend controller to process the payload.
-[ ] Problem 4: Unpopulated Backward Compatibility (DevOps)
+[x] Problem 4: Incomplete Backward Compatibility (DevOps)
 File: .discourse-compatibility
-Status: The file is empty. You must either provide legacy commit hashes for older Discourse versions (e.g., < 3.2.0) or explicitly lock the version using # minimum_discourse_version: 3.2.0 inside plugin.rb.
-[ ] Problem 5: Incomplete JavaScript Route Maps (Frontend)
+Status: The file has the correct comments but lacks the actual legacy commit hash mapping. You must either provide a valid legacy commit hash (e.g., < 3.2.0: abc123def456) or, if this is a new plugin, enforce # minimum_discourse_version: 3.2.0 inside plugin.rb and delete the .discourse-compatibility file.
+[x] Problem 5: Incomplete JavaScript Route Maps & Type Hinting (Frontend)
 Files: frontend/discourse/admin-route-map.js & frontend/discourse/routes/admin-plugins-academic-profile.js
-Status: These files are empty. The Ember router does not know how to map the admin/plugins/academic-profile URL to your newly created Glimmer component (admin-academic-profile-panel.gjs).
-[ ] Problem 6: Missing Translation Dictionary Keys (Localization)
+Status: The files exist and have basic Ember routing, but they lack the mandatory / @ts-check */ directive for Glint type validation. Additionally, the route map must precisely map the admin dashboard URL to your specific Glimmer component.
+[x] Problem 6: Missing Translation Dictionary Keys (Localization)
 Files: config/locales/client.en.yml & config/locales/server.en.yml
-Status: While the files exist, we must ensure they contain the exact keys referenced by the Service Objects (academic_title descriptions) and the frontend Glimmer UI (js.bekcan_academic_profile.admin.panel_title).
+Status: The files lack the exact I18n keys referenced by the backend Service Objects (bekcan_academic_profile.user_field.description) and the frontend Glimmer UI (js.bekcan_academic_profile.admin.panel_title, js.bekcan_academic_profile.title).

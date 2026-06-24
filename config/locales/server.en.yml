@@ -2,3 +2,5 @@ en:
   bekcan_academic_profile:
     user_field:
       description: "Academic Title"
+  site_settings:
+    bekcan_academic_titles: "Comma separated list of academic titles"

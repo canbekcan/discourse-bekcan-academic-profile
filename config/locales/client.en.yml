@@ -2,3 +2,11 @@ en:
   js:
     bekcan_academic_profile:
       title: "Academic Profile"
+      admin:
+        panel_title: "Academic Profile Configuration"
+        sync_button: "Save Mappings"
+      titles:
+        professor: "Professor"
+        associate_professor: "Associate Professor"
+        assistant_professor: "Assistant Professor"
+        research_assistant: "Research Assistant"

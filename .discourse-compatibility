@@ -1,5 +1,0 @@
-# .discourse-compatibility
-# Discourse 3.2.0 introduced Glimmer Components and FormKit.
-# Pin any instance running an older version to the last safe commit hash.
-
-< 3.2.0.beta1: 554f1af727c0aa57e6fea550f70f15b653a5b55f

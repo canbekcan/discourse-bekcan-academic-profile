@@ -2,3 +2,11 @@ tr_TR:
   js:
     bekcan_academic_profile:
       title: "Akademik Profil"
+      admin:
+        panel_title: "Akademik Profil Ayarları"
+        sync_button: "Hariytayı Kaydet"
+      titles:
+        professor: "Profesör"
+        associate_professor: "Doçent Doktor"
+        assistant_professor: "Doktor Öğretim Üyesi"
+        research_assistant: "Araştırma Görevlisi"

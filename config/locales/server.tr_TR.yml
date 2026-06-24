@@ -2,3 +2,5 @@ tr_TR:
   bekcan_academic_profile:
     user_field:
       description: "Akademik Ünvan"
+  site_settings:
+    bekcan_academic_titles: "Virgülle ayrılmış akademik ünvan listesi"
