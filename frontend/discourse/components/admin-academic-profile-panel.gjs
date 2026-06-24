@@ -1,4 +1,3 @@
-/** @ts-check */
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
@@ -7,7 +6,6 @@ import { ajax } from "discourse/lib/ajax";
 import DButton from "discourse/components/d-button";
 import GroupChooser from "select-kit/components/group-chooser";
 import I18n from "discourse-i18n";
-import { htmlSafe } from "@ember/template";
 
 export default class AdminAcademicProfilePanel extends Component {
   @tracked isSyncing = false;
@@ -16,13 +14,8 @@ export default class AdminAcademicProfilePanel extends Component {
 
   constructor() {
     super(...arguments);
-    this.initializeMappings();
-  }
-
-  initializeMappings() {
     const titles = this.args.model.titles || [];
     const mappings = this.args.model.mappings || {};
-    
     this.titleMappings = titles.map(titleKey => ({
       key: titleKey,
       displayName: I18n.t(`bekcan_academic_profile.titles.${titleKey}`, { defaultValue: titleKey }),
@@ -30,50 +23,30 @@ export default class AdminAcademicProfilePanel extends Component {
     }));
   }
 
-  @action
-  updateGroups(mapping, newGroupIds) {
+  @action updateGroups(mapping, newGroupIds) {
     mapping.group_ids = newGroupIds;
     this.titleMappings = [...this.titleMappings];
   }
 
-  @action
-  async triggerSync() {
+  @action async triggerSync() {
     this.isSyncing = true;
-    this.syncSuccess = false;
-
-    const payloadMappings = {};
-    this.titleMappings.forEach(m => {
-      payloadMappings[m.key] = m.group_ids;
-    });
-
-    try {
-      await ajax("/admin/plugins/academic-profile/sync", { type: "POST", data: { mappings: payloadMappings } });
-      this.syncSuccess = true;
-    } finally {
-      this.isSyncing = false;
-    }
+    const payload = {};
+    this.titleMappings.forEach(m => payload[m.key] = m.group_ids);
+    await ajax("/admin/plugins/academic-profile/sync", { type: "POST", data: { mappings: payload } });
+    this.syncSuccess = true;
+    this.isSyncing = false;
   }
 
   <template>
-    <div class="admin-academic-profile-panel-container" style="max-width: 800px; padding: 20px;">
-      <h1>{{I18n "bekcan_academic_profile.admin.panel_title"}}</h1>
-      <div class="panel-info-box" style="margin-bottom: 20px; padding: 15px; background: var(--secondary-very-high);">
-        <p>{{htmlSafe (I18n "bekcan_academic_profile.admin.info_html")}}</p>
-      </div>
-
-      <div class="mappings-list" style="margin-bottom: 30px;">
-        {{#each this.titleMappings as |mapping|}}
-          <div class="mapping-row" style="margin-bottom: 15px; display: flex; flex-direction: column;">
-            <label style="font-weight: bold; margin-bottom: 5px;">{{mapping.displayName}}</label>
-            <GroupChooser @values={{mapping.group_ids}} @onChange={{fn this.updateGroups mapping}} @multiple={{true}} />
-          </div>
-        {{/each}}
-      </div>
-
-      <div class="panel-action-row">
-        <DButton @action={{this.triggerSync}} @icon="sync" @label={{I18n "bekcan_academic_profile.admin.sync_button"}} @disabled={{this.isSyncing}} class="btn-primary" />
-        {{if this.syncSuccess (htmlSafe (concat "<div style='margin-top: 10px; color: var(--success);'>" (I18n "bekcan_academic_profile.admin.sync_success") "</div>"))}}
-      </div>
+    <div class="academic-profile-admin">
+      <h1>{{I18n "js.bekcan_academic_profile.admin.panel_title"}}</h1>
+      {{#each this.titleMappings as |m|}}
+        <div class="mapping">
+          <label>{{m.displayName}}</label>
+          <GroupChooser @values={{m.group_ids}} @onChange={{fn this.updateGroups m}} @multiple={{true}} />
+        </div>
+      {{/each}}
+      <DButton @action={{this.triggerSync}} @label={{I18n "js.bekcan_academic_profile.admin.sync_button"}} @disabled={{this.isSyncing}} />
     </div>
   </template>
 }

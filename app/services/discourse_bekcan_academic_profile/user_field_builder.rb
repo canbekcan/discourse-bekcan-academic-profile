@@ -1,12 +1,10 @@
 # frozen_string_literal: true
-
 module ::DiscourseBekcanAcademicProfile
   class UserFieldBuilder
     def call
       return unless SiteSetting.bekcan_academic_profile_enabled
 
-      # "name" alanları veritabanında anahtardır, asla değiştirilmemelidir.
-      # Görünür metinler için description alanına i18n anahtarı atıyoruz.
+      # Veritabanında sabit kodlar tutulur, çeviriler client/server yml dosyalarından alınır
       fields_config = {
         "academic_title" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_title_desc" },
         "academic_field" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_field_desc" },
@@ -17,8 +15,6 @@ module ::DiscourseBekcanAcademicProfile
         ActiveRecord::Base.transaction do
           fields_config.each do |key, config|
             field = UserField.find_or_initialize_by(name: key)
-            
-            # Eğer alan mevcut değilse (yeni oluşturuluyorsa) değerleri set et
             if field.new_record?
               field.field_type = config[:type]
               field.description = config[:desc]
@@ -28,10 +24,15 @@ module ::DiscourseBekcanAcademicProfile
               field.save!
             end
           end
+
+          # Ünvan seçeneklerini güncelle
+          title_field = UserField.find_by(name: "academic_title")
+          titles = SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?)
+          
+          titles.each { |key| UserFieldOption.find_or_create_by!(user_field_id: title_field.id, value: key) }
+          UserFieldOption.where(user_field_id: title_field.id).where.not(value: titles).destroy_all
         end
       end
-    rescue => e
-      Rails.logger.error("Academic Field Builder Error: #{e.message}")
     end
   end
 end
