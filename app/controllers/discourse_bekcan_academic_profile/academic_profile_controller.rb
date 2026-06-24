@@ -11,6 +11,9 @@ module ::DiscourseBekcanAcademicProfile
         mappings: PluginStore.get("bekcan_academic_profile", "group_mappings") || {},
         groups: Group.select(:id, :name).map { |g| { id: g.id, name: g.name } }
       }
+
+      # Use the Serializer to format the output
+      render_serialized(data, ::DiscourseBekcanAcademicProfile::AcademicProfileSerializer)
     end
 
     def sync

@@ -44,6 +44,24 @@ Task: Verify the minimum_discourse_version header in plugin.rb.
 Task: Implement admin-route-map.js and routes/admin-plugins-academic-profile.js with TypeScript/Glint / @ts-check */ headers.
 [x] Problem 6: Localization & Translation Compliance
 Task: Populate config/locales/client.en.yml and server.en.yml with the mandatory business logic labels required by the Service Objects and the UI forms.
-[ ] Problem 7: Final CI/CD & Linting Verification
+[x] Problem 7: Final CI/CD & Linting Verification
 Task: Run bin/lint to ensure the structure adheres to the standards defined in discourse-pipeline_18.yml.
 
+###
+
+[x] Problem 1: Serialization Layer Implementation
+Status: You are currently rendering json directly in the controller (render json: { ... }).
+Task: Implement app/serializers/academic_profile_serializer.rb to explicitly whitelist attributes. This prevents accidental exposure of database internals (e.g., full Group model metadata) to the client-side.
+[x] Problem 2: Input Contract Validation
+Status: AcademicProfileController performs basic parameter extraction.
+Task: Use params.require combined with custom validation logic to ensure the mappings payload matches the expected schema before passing it to the AssignAcademicGroups service object.
+Phase 2: Quality Assurance & Automated Testing (Medium Priority)
+[ ] Problem 3: E2E System Specs (spec/system/)
+Task: Implement an RSpec system spec using the PageObjects pattern to simulate an admin setting the academic titles, clicking "Sync," and verifying the group changes in the backend. This is mandatory for your CI/CD pipeline.
+[ ] Problem 4: JavaScript Unit Testing (test/javascripts/)
+Task: Write a QUnit component test for admin-academic-profile-panel.gjs. Verify that FormKit correctly updates isSubmitting and handles AJAX errors when the sync fails.
+Phase 3: Publication & Standard Compliance (Low Priority)
+[ ] Problem 5: Comprehensive README.md
+Task: Scaffold a README.md in the root directory following the standard template (Title, Description, Installation, Configuration, License, Screenshots).
+[ ] Problem 6: CI/CD Workflow Finalization
+Task: Audit .github/workflows/discourse-plugin.yml. Ensure the linting job is explicitly running bin/lint --plugin discourse-bekcan-academic-profile to enforce RuboCop and ESLint rules.
