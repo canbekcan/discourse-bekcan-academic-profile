@@ -1,0 +1,11 @@
+# .github/workflows/discourse-plugin.yml
+name: Discourse Plugin CI
+
+on: [push, pull_request]
+
+jobs:
+  plugin_lint:
+    uses: discourse/discourse/.github/workflows/plugin-lint.yml@main
+  
+  plugin_test:
+    uses: discourse/discourse/.github/workflows/plugin-test.yml@main
