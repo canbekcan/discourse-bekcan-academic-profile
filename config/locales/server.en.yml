@@ -4,3 +4,4 @@ en:
       description: "Academic Title"
   site_settings:
     bekcan_academic_titles: "Comma separated list of academic titles"
+    bekcan_academic_profile_enabled: "Enable the BEKCAN Academic Profile plugin."

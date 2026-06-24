@@ -1,22 +1,33 @@
 # frozen_string_literal: true
+
 module ::DiscourseBekcanAcademicProfile
   class AcademicProfileController < ::Admin::AdminController
-    requires_plugin "discourse-bekcan-academic-profile"
+    requires_plugin "discourse_bekcan_academic_profile"
 
     def index
-      titles = SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?)
-      mappings = PluginStore.get("bekcan_academic", "group_mappings") || {}
-      # Admin paneline grupları gönderiyoruz
-      groups = Group.select(:id, :name).map { |g| { id: g.id, name: g.name } }
-      render json: { titles: titles, mappings: mappings, groups: groups }
+      # Retrieve current state from SiteSettings and PluginStore
+      render json: {
+        titles: SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?),
+        mappings: PluginStore.get("bekcan_academic_profile", "group_mappings") || {},
+        groups: Group.select(:id, :name).map { |g| { id: g.id, name: g.name } }
+      }
     end
 
     def sync
-      ::DiscourseBekcanAcademicProfile::UserFieldBuilder.new.call
-      mappings = params[:mappings] || {}
-      clean_mappings = mappings.transform_values { |v| Array(v).map(&:to_i).reject(&:zero?) }
-      PluginStore.set("bekcan_academic", "group_mappings", clean_mappings)
-      render json: success_json
+      # Validate parameters using a standard Contract pattern (Step 06)
+      params.require(:mappings)
+      
+      # Execute the business logic via the dedicated Service Object
+      # This ensures thread-safety via DistributedMutex and transactional integrity
+      result = ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.call(
+        mappings: params[:mappings]
+      )
+
+      if result.success?
+        render json: success_json
+      else
+        render json: { errors: result.errors }, status: :unprocessable_entity
+      end
     end
   end
 end

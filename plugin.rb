@@ -10,10 +10,34 @@ require_relative "lib/discourse_bekcan_academic_profile/engine"
 enabled_site_setting :bekcan_academic_profile_enabled
 
 # 1. Engine tanımlaması (Namespace çakışmalarını önler)
+# app/controllers/discourse_bekcan_academic_profile/academic_profile_controller.rb
+# frozen_string_literal: true
+
 module ::DiscourseBekcanAcademicProfile
-  class Engine < ::Rails::Engine
-    engine_name "discourse_bekcan_academic_profile"
-    isolate_namespace DiscourseBekcanAcademicProfile
+  class AcademicProfileController < ::Admin::AdminController
+    requires_plugin "discourse-bekcan-academic-profile"
+
+    def index
+      render json: {
+        titles: SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?),
+        mappings: PluginStore.get("bekcan_academic_profile", "group_mappings") || {},
+        groups: Group.select(:id, :name).map { |g| { id: g.id, name: g.name } }
+      }
+    end
+
+    def sync
+      # Using Service Object pattern for clean business logic execution
+      # Pre-condition: Mappings must be present and valid
+      result = ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.call(
+        mappings: params.require(:mappings)
+      )
+
+      if result.success?
+        render json: success_json
+      else
+        render json: { errors: result.errors }, status: :unprocessable_entity
+      end
+    end
   end
 end
 

@@ -5,8 +5,24 @@ en:
       admin:
         panel_title: "Academic Profile Configuration"
         sync_button: "Save Mappings"
+        plugins:
+          academic_profile:
+            panel_title: "Academic Profile Configuration"
+            sync_button: "Sync Configuration"
+            titles:
+              professor: "Professor"
+              associate_professor: "Associate Professor"
+              assistant_professor: "Assistant Professor"
+              research_assistant: "Research Assistant"
+            labels:
+              groups: "Group Assignment"
+              titles: "Academic Titles"
       titles:
         professor: "Professor"
         associate_professor: "Associate Professor"
         assistant_professor: "Assistant Professor"
         research_assistant: "Research Assistant"
+
+
+
+    admin:

@@ -25,3 +25,25 @@ Status: The files exist and have basic Ember routing, but they lack the mandator
 [x] Problem 6: Missing Translation Dictionary Keys (Localization)
 Files: config/locales/client.en.yml & config/locales/server.en.yml
 Status: The files lack the exact I18n keys referenced by the backend Service Objects (bekcan_academic_profile.user_field.description) and the frontend Glimmer UI (js.bekcan_academic_profile.admin.panel_title, js.bekcan_academic_profile.title).
+
+###
+
+[x] Problem 1: Missing Backend API Logic
+Status: academic_profile_controller.rb is empty.
+Task: Implement the index (for data retrieval) and sync (for payload saving) actions.
+[x] Problem 2: Unmapped Engine Routes
+Status: Missing route draw configuration in engine.rb or plugin.rb.
+Task: Map /data and /sync to the AcademicProfileController.
+[x] Problem 3: Localization/I18n Consistency
+Status: Verification required.
+Task: Ensure YAML keys used in admin-academic-profile-panel.gjs match the backend string formatting.
+[x] Problem 4: DevOps/Compatibility Verification
+Status: Pending final verification.
+Task: Verify the minimum_discourse_version header in plugin.rb.
+[x] Problem 5: Incomplete Frontend Route Infrastructure
+Task: Implement admin-route-map.js and routes/admin-plugins-academic-profile.js with TypeScript/Glint / @ts-check */ headers.
+[x] Problem 6: Localization & Translation Compliance
+Task: Populate config/locales/client.en.yml and server.en.yml with the mandatory business logic labels required by the Service Objects and the UI forms.
+[ ] Problem 7: Final CI/CD & Linting Verification
+Task: Run bin/lint to ensure the structure adheres to the standards defined in discourse-pipeline_18.yml.
+
