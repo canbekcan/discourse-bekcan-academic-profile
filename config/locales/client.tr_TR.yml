@@ -1,4 +1,24 @@
 tr_TR:
+  # 1. SUNUCU (RUBY) ÇEVİRİLERİ - UserFieldBuilder'ın veritabanına yazabilmesi için
+  bekcan_academic_profile:
+    user_fields:
+      academic_title_name: "Akademik Ünvan"
+      academic_title_desc: "Lütfen akademik ünvanınızı seçiniz."
+      academic_field_name: "Akademik Alan"
+      academic_field_desc: "Temel akademik alanınızı seçiniz."
+      scientific_disciplines_name: "Bilim Dalları"
+      scientific_disciplines_desc: "Çalıştığınız bilim dallarını seçiniz."
+
+  # 2. ADMIN PANEL SOL MENÜ ROTASI ÇEVİRİSİ
+  admin:
+    js:
+      bekcan_academic_profile:
+        title: "Akademik Profil"
+    plugins:
+      bekcan_academic_profile:
+        title: "Akademik Profil"
+
+  # 3. İSTEMCİ (EMBER.JS / ARAYÜZ) ÇEVİRİLERİ
   js:
     bekcan_academic_profile:
       title: "Akademik Profil"
@@ -24,7 +44,3 @@ tr_TR:
         spec_md: "Uzman Doktor (Uzm. Dr.)"
         phd_cand: "Doktora Öğrencisi / Adayı"
         msc_cand: "Yüksek Lisans Mezunu / Öğrencisi"
-    admin:
-      plugins:
-        bekcan_academic_profile:
-          title: "Akademik Profil"
