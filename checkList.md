@@ -1,7 +1,0 @@
-[x] Problem 1: Glimmer Strict Mode Violation (Legacy .hbs templates removed)
-[x] Problem 2: Missing JavaScript Type Validations (/ @ts-check */ and Glint ready)
-[x] Problem 3: Concurrency Flaws in Group Assignment (Isolated via DistributedMutex and DB transactions)
-[x] Problem 4: UserField Database Corruption Risk (Immutable machine-keys used via find_or_initialize_by)
-[x] Problem 5: Zeitwerk Engine Autoloading & Route Collisions (Engine isolated to lib/ and mounted correctly)
-[x] Problem 6: Unpinned Backward Compatibility (Hard guarded via minimum_discourse_version header)
-[x] Problem 7: Invisible Ember Site Settings (Exposed via client: true attribute block)

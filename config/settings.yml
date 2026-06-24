@@ -1,4 +1,0 @@
-plugins:
-  bekcan_academic_profile_enabled:
-    default: true
-    client: true
