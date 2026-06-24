@@ -17,7 +17,7 @@ export default class AdminAcademicProfilePanel extends Component {
     const mappings = this.args.model.mappings || {};
     return titles.map(titleKey => ({
       key: titleKey,
-      displayName: I18n.t(`js.bekcan_academic_profile.titles.${titleKey}`, { defaultValue: titleKey }),
+      displayName: I18n.t(`js.academic_profile.titles.${titleKey}`, { defaultValue: titleKey }),
       group_ids: mappings[titleKey] || []
     }));
   }

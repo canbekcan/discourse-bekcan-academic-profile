@@ -1,4 +1,8 @@
 en:
+  admin:
+    plugins:
+      academic_profile:
+        title: "Academic Profile"
   js:
     bekcan_academic_profile:
       title: "Academic Profile"
@@ -23,7 +27,7 @@ en:
         spec_md: "Specialist Medical Doctor"
         phd_cand: "PhD Candidate / Student"
         msc_cand: "MSc Graduate / Student"
-    admin:
-      plugins:
-        academic_profile:
-          title: "Academic Profile"
+      admin:
+        plugins:
+          academic_profile:
+            title: "Academic Profile"

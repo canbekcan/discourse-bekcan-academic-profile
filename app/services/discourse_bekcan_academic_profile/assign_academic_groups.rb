@@ -1,4 +1,4 @@
-module ::DiscourseBekcanAcademicProfile
+module ::DiscourseAcademicProfile
   class AssignAcademicGroups
     def call(user:)
       return unless SiteSetting.bekcan_academic_profile_enabled

@@ -14,7 +14,7 @@ export default {
            const field = this.userFields.findBy("name", "academic_title");
            if (!field) return [];
            return field.options.map(opt => ({
-             name: I18n.t(`bekcan_academic_profile.titles.${opt.value}`, { defaultValue: opt.value }),
+             name: I18n.t(`academic_profile.titles.${opt.value}`, { defaultValue: opt.value }),
              value: opt.value
            }));
         }

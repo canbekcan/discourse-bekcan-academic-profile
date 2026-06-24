@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module ::DiscourseBekcanAcademicProfile
+module ::DiscourseAcademicProfile
   class UserFieldBuilder
     def call
       return unless SiteSetting.bekcan_academic_profile_enabled

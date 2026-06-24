@@ -1,6 +1,6 @@
-module ::DiscourseBekcanAcademicProfile
+module ::DiscourseAcademicProfile
   class Engine < ::Rails::Engine
     engine_name "discourse_bekcan_academic_profile"
-    isolate_namespace DiscourseBekcanAcademicProfile
+    isolate_namespace DiscourseAcademicProfile
   end
 end
