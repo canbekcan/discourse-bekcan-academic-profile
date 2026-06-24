@@ -3,13 +3,13 @@ module ::DiscourseBekcanAcademicProfile
     def call(user:)
       return unless SiteSetting.bekcan_academic_profile_enabled
 
-      title_field = UserField.find_by(name: "academic_title")
+      title_field = UserField.find_by(name: I18n.t("bekcan_academic_profile.user_fields.academic_title_name")) || UserField.find_by(name: "academic_title")
       return unless title_field
 
       user_title = user.custom_fields["user_field_#{title_field.id}"]
       mappings = PluginStore.get("bekcan_academic", "group_mappings") || {}
       
-      # Kullanıcının şu anki ünvanına ait hedef grup ID'leri
+      # Kullanıcının güncel ünvanına ait hedef grup ID'leri
       target_group_ids = mappings[user_title] || []
       
       # Eklentinin yönettiği TÜM grup ID'leri havuzu
@@ -21,13 +21,8 @@ module ::DiscourseBekcanAcademicProfile
 
       DistributedMutex.synchronize("assign_academic_groups_#{user.id}") do
         ActiveRecord::Base.transaction do
-          groups_to_add.each do |g| 
-            g.add(user) unless g.users.include?(user)
-          end
-          
-          groups_to_remove.each do |g| 
-            g.remove(user) if g.users.include?(user)
-          end
+          groups_to_add.each { |g| g.add(user) unless g.users.include?(user) }
+          groups_to_remove.each { |g| g.remove(user) if g.users.include?(user) }
         end
       end
     rescue StandardError => e

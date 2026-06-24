@@ -2,6 +2,11 @@ en:
   js:
     bekcan_academic_profile:
       title: "Academic Profile"
+      admin:
+        panel_title: "Academic Profile & Group Automation"
+        info_html: "Titles below are fetched from the <strong>bekcan_academic_titles</strong> site setting. You can assign multiple groups to each title like selecting tags."
+        sync_button: "Sync Settings to Database"
+        sync_success: "✓ Settings and group mappings (PluginStore) successfully updated!"
     admin:
       plugins:
         bekcan_academic_profile:

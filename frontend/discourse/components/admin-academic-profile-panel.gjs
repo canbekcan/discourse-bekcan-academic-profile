@@ -6,6 +6,8 @@ import { fn } from "@ember/helper";
 import { ajax } from "discourse/lib/ajax";
 import DButton from "discourse/components/d-button";
 import GroupChooser from "select-kit/components/group-chooser";
+import I18n from "discourse-i18n";
+import { htmlSafe } from "@ember/template";
 
 export default class AdminAcademicProfilePanel extends Component {
   @tracked isSyncing = false;
@@ -21,7 +23,6 @@ export default class AdminAcademicProfilePanel extends Component {
     const titles = this.args.model.titles || [];
     const mappings = this.args.model.mappings || {};
     
-    // Her bir ünvan için mevcut grup dizisini oluştur
     this.titleMappings = titles.map(title => ({
       title: title,
       group_ids: mappings[title] || []
@@ -31,7 +32,6 @@ export default class AdminAcademicProfilePanel extends Component {
   @action
   updateGroups(mapping, newGroupIds) {
     mapping.group_ids = newGroupIds;
-    // Reaktiviteyi tetiklemek için diziyi yenile
     this.titleMappings = [...this.titleMappings];
   }
 
@@ -40,7 +40,6 @@ export default class AdminAcademicProfilePanel extends Component {
     this.isSyncing = true;
     this.syncSuccess = false;
 
-    // Backend'in beklediği Hash { "Profesör": [1,2], "Doçent": [3] } formatına çevir
     const payloadMappings = {};
     this.titleMappings.forEach(m => {
       payloadMappings[m.title] = m.group_ids;
@@ -53,7 +52,7 @@ export default class AdminAcademicProfilePanel extends Component {
       });
       this.syncSuccess = true;
     } catch (error) {
-      // Hatalar sistem tarafından toast olarak gösterilir
+      // discourse/lib/ajax handles toast errors automatically
     } finally {
       this.isSyncing = false;
     }
@@ -61,11 +60,10 @@ export default class AdminAcademicProfilePanel extends Component {
 
   <template>
     <div class="admin-academic-profile-panel-container" style="max-width: 800px; padding: 20px;">
-      <h1>Akademik Profil ve Grup Otomasyonu</h1>
+      <h1>{{I18n "bekcan_academic_profile.admin.panel_title"}}</h1>
       
       <div class="panel-info-box" style="margin-bottom: 20px; padding: 15px; background: var(--secondary-very-high);">
-        <p>Aşağıdaki listedeki ünvanlar <strong>bekcan_academic_titles</strong> site ayarından çekilmektedir.</p>
-        <p>Hangi ünvan seçildiğinde kullanıcının hangi gruplara otomatik ekleneceğini belirleyin. Bir ünvan sınırsız sayıda gruba eşlenebilir.</p>
+        <p>{{htmlSafe (I18n "bekcan_academic_profile.admin.info_html")}}</p>
       </div>
 
       <div class="mappings-list" style="margin-bottom: 30px;">
@@ -86,14 +84,14 @@ export default class AdminAcademicProfilePanel extends Component {
         <DButton
           @action={{this.triggerSync}}
           @icon="sync"
-          @label="Ayarları ve Grupları Veritabanına Eşitle (Sync)"
+          @label={{I18n "bekcan_academic_profile.admin.sync_button"}}
           @disabled={{this.isSyncing}}
           class="btn-primary"
         />
 
         {{if this.syncSuccess}}
           <div class="sync-success-alert" style="margin-top: 10px; color: var(--success);">
-            <p>✓ Ayarlar başarıyla okundu ve grup eşleşmeleri (PluginStore) güncellendi!</p>
+            <p>{{I18n "bekcan_academic_profile.admin.sync_success"}}</p>
           </div>
         {{/if}}
       </div>

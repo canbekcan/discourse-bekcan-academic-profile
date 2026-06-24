@@ -2,9 +2,12 @@ en:
   bekcan_academic_profile:
     title: "Academic Profile"
     user_fields:
-      academic_title_desc: "Academic Title"
-      academic_field_desc: "Acadmemic Field"
-      scientific_disciplines_desc: "Academic Sub Fields"
+      academic_title_name: "Academic Title"
+      academic_title_desc: "Please select your academic title."
+      academic_field_name: "Academic Field"
+      academic_field_desc: "Select your primary field of academia."
+      scientific_disciplines_name: "Scientific Disciplines"
+      scientific_disciplines_desc: "Select your scientific disciplines."
   site_settings:
     bekcan_academic_profile_enabled: "Enable advanced academic profile features and automations."
     bekcan_academic_titles: "Academic titles listed in the dropdown menu (separated by |)."

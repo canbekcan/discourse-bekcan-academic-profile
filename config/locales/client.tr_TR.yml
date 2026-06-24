@@ -2,7 +2,11 @@ tr_TR:
   js:
     bekcan_academic_profile:
       title: "Akademik Profil"
-      scientific_disciplines: "Bilim Dalları"
+      admin:
+        panel_title: "Akademik Profil ve Grup Otomasyonu"
+        info_html: "Aşağıdaki ünvanlar <strong>bekcan_academic_titles</strong> ayarından çekilmektedir. Her ünvan için etiket seçer gibi birden fazla grup atayabilirsiniz."
+        sync_button: "Ayarları ve Grupları Veritabanına Eşitle (Sync)"
+        sync_success: "✓ Ayarlar başarıyla okundu ve grup eşleşmeleri (PluginStore) güncellendi!"
     admin:
       plugins:
         bekcan_academic_profile:

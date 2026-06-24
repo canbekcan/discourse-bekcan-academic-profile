@@ -9,7 +9,8 @@ module ::DiscourseBekcanAcademicProfile
           # 1. Akademik Ünvan
           title_field = UserField.find_or_create_by!(name: "academic_title") do |f|
             f.field_type = "dropdown"
-            f.description = I18n.t("bekcan_academic_profile.user_fields.academic_title_desc", default: "Akademik Ünvan")
+            f.name = I18n.t("bekcan_academic_profile.user_fields.academic_title_name")
+            f.description = I18n.t("bekcan_academic_profile.user_fields.academic_title_desc")
             f.editable = true
             f.show_on_profile = true
             f.show_on_user_card = true
@@ -22,15 +23,17 @@ module ::DiscourseBekcanAcademicProfile
           # 2. Akademik Alan
           UserField.find_or_create_by!(name: "academic_field") do |f|
             f.field_type = "dropdown"
-            f.description = I18n.t("bekcan_academic_profile.user_fields.academic_field_desc", default: "Akademik Alan")
+            f.name = I18n.t("bekcan_academic_profile.user_fields.academic_field_name")
+            f.description = I18n.t("bekcan_academic_profile.user_fields.academic_field_desc")
             f.editable = true
             f.show_on_profile = true
           end
 
           # 3. Bilim Dalları
           UserField.find_or_create_by!(name: "scientific_disciplines") do |f|
-            f.field_type = "text" # Discourse standart text kullanır, UI tarafında çoklu seçime çevrilir
-            f.description = I18n.t("bekcan_academic_profile.user_fields.scientific_disciplines_desc", default: "Bilim Dalları")
+            f.field_type = "text"
+            f.name = I18n.t("bekcan_academic_profile.user_fields.scientific_disciplines_name")
+            f.description = I18n.t("bekcan_academic_profile.user_fields.scientific_disciplines_desc")
             f.editable = true
             f.show_on_profile = true
           end
