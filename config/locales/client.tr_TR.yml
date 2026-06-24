@@ -14,6 +14,7 @@ tr_TR:
         academic_field_desc: "Temel akademik alanınızı seçiniz."
         scientific_disciplines_name: "Bilim Dalları"
         scientific_disciplines_desc: "Çalıştığınız bilim dallarını seçiniz."
+        academic_title: "Akademik Ünvan"
       titles:
         prof: "Profesör (Prof. Dr.)"
         assoc_prof: "Doçent (Doç. Dr.)"
