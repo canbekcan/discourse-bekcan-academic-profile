@@ -1,0 +1,24 @@
+// assets/stylesheets/admin/academic-profile.scss
+
+.academic-profile-admin {
+  h3 {
+    margin-bottom: 20px;
+  }
+
+  .academic-profile-mapping-row {
+    margin-bottom: 20px;
+
+    .mapping-label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+  }
+
+  .academic-profile-actions {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid var(--primary-low);
+  }
+}
