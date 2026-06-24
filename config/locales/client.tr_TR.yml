@@ -4,9 +4,25 @@ tr_TR:
       title: "Akademik Profil"
       admin:
         panel_title: "Akademik Profil ve Grup Otomasyonu"
-        info_html: "Aşağıdaki ünvanlar <strong>bekcan_academic_titles</strong> site ayarından çekilmektedir. Her ünvan için etiket seçer gibi birden fazla grup atayabilirsiniz."
+        info_html: "Aşağıdaki ünvanlar ayarlarınızdaki evrensel kodlardan çekilir. Her bir ünvana birden fazla grup atayabilirsiniz."
         sync_button: "Ayarları ve Grupları Veritabanına Eşitle"
         sync_success: "✓ İşlem Başarılı! Gruplar ve profil alanları güncellendi."
+      user_fields:
+        academic_title_name: "Akademik Ünvan"
+        academic_title_desc: "Lütfen akademik ünvanınızı seçiniz."
+        academic_field_name: "Akademik Alan"
+        academic_field_desc: "Temel akademik alanınızı seçiniz."
+        scientific_disciplines_name: "Bilim Dalları"
+        scientific_disciplines_desc: "Çalıştığınız bilim dallarını seçiniz."
+      titles:
+        prof: "Profesör (Prof. Dr.)"
+        assoc_prof: "Doçent (Doç. Dr.)"
+        asst_prof: "Doktor Öğretim Üyesi (Dr. Öğr. Üyesi)"
+        lecturer: "Öğretim Görevlisi (Öğr. Gör.)"
+        res_asst: "Araştırma Görevlisi (Arş. Gör.)"
+        spec_md: "Uzman Doktor (Uzm. Dr.)"
+        phd_cand: "Doktora Öğrencisi / Adayı"
+        msc_cand: "Yüksek Lisans Mezunu / Öğrencisi"
     admin:
       plugins:
         bekcan_academic_profile:

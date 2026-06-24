@@ -4,9 +4,25 @@ en:
       title: "Academic Profile"
       admin:
         panel_title: "Academic Profile & Group Automation"
-        info_html: "Titles below are fetched from the <strong>bekcan_academic_titles</strong> site setting. You can assign multiple groups to each title."
+        info_html: "Titles below are fetched from the universal keys. You can assign multiple groups to each title."
         sync_button: "Sync Settings and Groups to Database"
         sync_success: "✓ Success! Groups and profile fields updated."
+      user_fields:
+        academic_title_name: "Academic Title"
+        academic_title_desc: "Please select your academic title."
+        academic_field_name: "Academic Field"
+        academic_field_desc: "Select your primary field of academia."
+        scientific_disciplines_name: "Scientific Disciplines"
+        scientific_disciplines_desc: "Select your scientific disciplines."
+      titles:
+        prof: "Professor (Prof. Dr.)"
+        assoc_prof: "Associate Professor (Assoc. Prof. Dr.)"
+        asst_prof: "Assistant Professor (Asst. Prof. Dr.)"
+        lecturer: "Lecturer"
+        res_asst: "Research Assistant"
+        spec_md: "Specialist Medical Doctor"
+        phd_cand: "PhD Candidate / Student"
+        msc_cand: "MSc Graduate / Student"
     admin:
       plugins:
         bekcan_academic_profile:

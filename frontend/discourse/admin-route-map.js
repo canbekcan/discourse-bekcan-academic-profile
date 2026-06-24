@@ -1,4 +1,4 @@
 /** @ts-check */
 export default function () {
-  this.route("academic-profile", { path: "/academic-profile" });
+  this.route("academic-profile"); // Nested olmamalı!
 }

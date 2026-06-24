@@ -23,9 +23,10 @@ export default class AdminAcademicProfilePanel extends Component {
     const titles = this.args.model.titles || [];
     const mappings = this.args.model.mappings || {};
     
-    this.titleMappings = titles.map(title => ({
-      title: title,
-      group_ids: mappings[title] || []
+    this.titleMappings = titles.map(titleKey => ({
+      key: titleKey,
+      displayName: I18n.t(`bekcan_academic_profile.titles.${titleKey}`, { defaultValue: titleKey }),
+      group_ids: mappings[titleKey] || []
     }));
   }
 
@@ -42,17 +43,12 @@ export default class AdminAcademicProfilePanel extends Component {
 
     const payloadMappings = {};
     this.titleMappings.forEach(m => {
-      payloadMappings[m.title] = m.group_ids;
+      payloadMappings[m.key] = m.group_ids;
     });
 
     try {
-      await ajax("/admin/plugins/academic-profile/sync", { 
-        type: "POST",
-        data: { mappings: payloadMappings }
-      });
+      await ajax("/admin/plugins/academic-profile/sync", { type: "POST", data: { mappings: payloadMappings } });
       this.syncSuccess = true;
-    } catch (error) {
-      // Hatalar toast mesajı olarak görünür
     } finally {
       this.isSyncing = false;
     }
@@ -61,7 +57,6 @@ export default class AdminAcademicProfilePanel extends Component {
   <template>
     <div class="admin-academic-profile-panel-container" style="max-width: 800px; padding: 20px;">
       <h1>{{I18n "bekcan_academic_profile.admin.panel_title"}}</h1>
-      
       <div class="panel-info-box" style="margin-bottom: 20px; padding: 15px; background: var(--secondary-very-high);">
         <p>{{htmlSafe (I18n "bekcan_academic_profile.admin.info_html")}}</p>
       </div>
@@ -69,31 +64,15 @@ export default class AdminAcademicProfilePanel extends Component {
       <div class="mappings-list" style="margin-bottom: 30px;">
         {{#each this.titleMappings as |mapping|}}
           <div class="mapping-row" style="margin-bottom: 15px; display: flex; flex-direction: column;">
-            <label style="font-weight: bold; margin-bottom: 5px;">{{mapping.title}}</label>
-            
-            <GroupChooser 
-              @values={{mapping.group_ids}}
-              @onChange={{fn this.updateGroups mapping}}
-              @multiple={{true}}
-            />
+            <label style="font-weight: bold; margin-bottom: 5px;">{{mapping.displayName}}</label>
+            <GroupChooser @values={{mapping.group_ids}} @onChange={{fn this.updateGroups mapping}} @multiple={{true}} />
           </div>
         {{/each}}
       </div>
 
       <div class="panel-action-row">
-        <DButton
-          @action={{this.triggerSync}}
-          @icon="sync"
-          @label={{I18n "bekcan_academic_profile.admin.sync_button"}}
-          @disabled={{this.isSyncing}}
-          class="btn-primary"
-        />
-
-        {{if this.syncSuccess}}
-          <div class="sync-success-alert" style="margin-top: 10px; color: var(--success);">
-            <p>{{I18n "bekcan_academic_profile.admin.sync_success"}}</p>
-          </div>
-        {{/if}}
+        <DButton @action={{this.triggerSync}} @icon="sync" @label={{I18n "bekcan_academic_profile.admin.sync_button"}} @disabled={{this.isSyncing}} class="btn-primary" />
+        {{if this.syncSuccess (htmlSafe (concat "<div style='margin-top: 10px; color: var(--success);'>" (I18n "bekcan_academic_profile.admin.sync_success") "</div>"))}}
       </div>
     </div>
   </template>

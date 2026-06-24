@@ -3,7 +3,7 @@ plugins:
     default: true
     client: true
   bekcan_academic_titles:
-    default: "Profesör (Prof. Dr.)|Doçent (Doç. Dr.)|Doktor Öğretim Üyesi (Dr. Öğr. Üyesi)|Öğretim Görevlisi (Öğr. Gör.)|Araştırma Görevlisi (Arş. Gör.)|Uzman Doktor (Uzm. Dr.)|Doktora Öğrencisi / Adayı|Yüksek Lisans Mezunu / Öğrencisi"
+    default: "prof|assoc_prof|asst_prof|lecturer|res_asst|spec_md|phd_cand|msc_cand"
     type: list
     client: true
   # professor_auto_group_id:
