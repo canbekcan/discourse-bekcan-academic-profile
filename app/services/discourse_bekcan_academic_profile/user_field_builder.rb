@@ -6,9 +6,9 @@ module ::DiscourseBekcanAcademicProfile
 
       # Veritabanında sabit kodlar tutulur, çeviriler client/server yml dosyalarından alınır
       fields_config = {
-        "academic_title" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_title_desc" },
-        "academic_field" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_field_desc" },
-        "scientific_disciplines" => { type: "text", desc: "bekcan_academic_profile.user_fields.scientific_disciplines_desc" }
+        "academic_title" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_title" },
+        "academic_field" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_field" },
+        "scientific_disciplines" => { type: "text", desc: "bekcan_academic_profile.user_fields.scientific_disciplines" }
       }
 
       DistributedMutex.synchronize("bekcan_academic_fields_init") do
