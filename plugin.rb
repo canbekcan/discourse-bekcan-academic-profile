@@ -6,35 +6,15 @@
 # required_version: 3.2.0
 
 enabled_site_setting :bekcan_academic_profile_enabled
-
-require_relative "lib/discourse_bekcan_academic_profile/engine"
-
-# Admin panelinde sol menü bağlantısı (Kendi namespace'i ile)
 add_admin_route "admin.plugins.academic_profile.title", "academic-profile"
 
-# Backend Engine Rotalarını uygulamaya ekliyoruz
-Discourse::Application.routes.append do
-  mount ::DiscourseBekcanAcademicProfile::Engine, at: "/admin/plugins/academic-profile", constraints: AdminConstraint.new
-end
-
 after_initialize do
-  # Engine içindeki rotaların tanımlanması
-  DiscourseBekcanAcademicProfile::Engine.routes.draw do
-    get "/" => "academic_profile#index"
-    post "/sync" => "academic_profile#sync"
-  end
-
-  # Veritabanı tabloları hazır olduğunda alanları senkronize et
+  # Eklenti yüklendiğinde alanları oluştur
   if ActiveRecord::Base.connection.table_exists?('user_fields')
     ::DiscourseBekcanAcademicProfile::UserFieldBuilder.new.call
   end
-  
-  # Event işleyicileri (Modern ve güvenli)
-  DiscourseEvent.on(:user_updated) do |user|
-    ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user)
-  end
 
-  DiscourseEvent.on(:user_created) do |user|
-    ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user)
-  end
+  # Kullanıcı güncellendiğinde veya oluştuğunda grupları kontrol et
+  DiscourseEvent.on(:user_updated) { |user| ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user) }
+  DiscourseEvent.on(:user_created) { |user| ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user) }
 end

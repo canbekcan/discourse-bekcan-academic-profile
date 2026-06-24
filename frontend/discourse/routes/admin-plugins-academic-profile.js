@@ -1,4 +1,3 @@
-/** @ts-check */
 import Route from "@ember/routing/route";
 import { ajax } from "discourse/lib/ajax";
 

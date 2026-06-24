@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ::DiscourseBekcanAcademicProfile
   class AssignAcademicGroups
     def call(user:)
@@ -6,10 +8,15 @@ module ::DiscourseBekcanAcademicProfile
       title_field = UserField.find_by(name: "academic_title")
       return unless title_field
 
+      # Kullanıcının profilindeki ünvan kodu (örn: "prof")
       user_title_key = user.custom_fields["user_field_#{title_field.id}"]
+      return if user_title_key.blank?
+
+      # Admin panelinden PluginStore'a kaydedilen eşleşmeleri çek
       mappings = PluginStore.get("bekcan_academic", "group_mappings") || {}
-      
       target_group_ids = mappings[user_title_key] || []
+      
+      # Yönetilen tüm grup IDlerini al (temizlik için)
       all_managed_group_ids = mappings.values.flatten.uniq
 
       groups_to_add = Group.where(id: target_group_ids)
@@ -22,7 +29,7 @@ module ::DiscourseBekcanAcademicProfile
         end
       end
     rescue StandardError => e
-      Discourse.warn_exception(e, message: "Academic Group Assignment Failed for user: #{user.id}")
+      Rails.logger.error("Academic Group Assignment Error: #{e.message}")
     end
   end
 end

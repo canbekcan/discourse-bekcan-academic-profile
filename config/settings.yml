@@ -2,10 +2,3 @@ plugins:
   bekcan_academic_profile_enabled:
     default: true
     client: true
-  bekcan_academic_titles:
-    default: "prof|assoc_prof|asst_prof|lecturer|res_asst|spec_md|phd_cand|msc_cand"
-    type: list
-    client: true
-  # professor_auto_group_id:
-    # default: -1
-    # type: integer
