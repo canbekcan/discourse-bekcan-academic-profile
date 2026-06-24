@@ -10,7 +10,7 @@ enabled_site_setting :bekcan_academic_profile_enabled
 require_relative "lib/discourse_bekcan_academic_profile/engine"
 
 # Admin panelinde sol menü bağlantısı (Kendi namespace'i ile)
-add_admin_route "bekcan_academic_profile.title", "academic-profile"
+add_admin_route "admin.plugins.academic_profile.title", "academic-profile"
 
 # Backend Engine Rotalarını uygulamaya ekliyoruz
 Discourse::Application.routes.append do
