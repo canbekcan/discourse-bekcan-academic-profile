@@ -1,0 +1,5 @@
+tr_TR:
+  admin:
+    plugins:
+      academic_profile:
+        title: "Akademik Profil"

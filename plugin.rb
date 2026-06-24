@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # name: discourse-bekcan-academic-profile
 # about: Gelişmiş akademik profil yönetimi ve otomatik grup atama sistemi.
 # version: 1.4.0

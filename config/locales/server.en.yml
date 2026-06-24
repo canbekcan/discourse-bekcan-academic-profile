@@ -1,0 +1,5 @@
+en:
+  admin:
+    plugins:
+      academic_profile:
+        title: "Academic Profile"
