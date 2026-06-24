@@ -14,27 +14,27 @@ add_admin_route "admin.plugins.academic_profile.title", "academic-profile"
 
 # Backend Engine Rotalarını uygulamaya ekliyoruz
 Discourse::Application.routes.append do
-  mount ::DiscourseAcademicProfile::Engine, at: "/admin/plugins/academic-profile", constraints: AdminConstraint.new
+  mount ::DiscourseBekcanAcademicProfile::Engine, at: "/admin/plugins/academic-profile", constraints: AdminConstraint.new
 end
 
 after_initialize do
   # Engine içindeki rotaların tanımlanması
-  DiscourseAcademicProfile::Engine.routes.draw do
+  DiscourseBekcanAcademicProfile::Engine.routes.draw do
     get "/" => "academic_profile#index"
     post "/sync" => "academic_profile#sync"
   end
 
   # Veritabanı tabloları hazır olduğunda alanları senkronize et
   if ActiveRecord::Base.connection.table_exists?('user_fields')
-    ::DiscourseAcademicProfile::UserFieldBuilder.new.call
+    ::DiscourseBekcanAcademicProfile::UserFieldBuilder.new.call
   end
   
   # Event işleyicileri (Modern ve güvenli)
   DiscourseEvent.on(:user_updated) do |user|
-    ::DiscourseAcademicProfile::AssignAcademicGroups.new.call(user: user)
+    ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user)
   end
 
   DiscourseEvent.on(:user_created) do |user|
-    ::DiscourseAcademicProfile::AssignAcademicGroups.new.call(user: user)
+    ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.new.call(user: user)
   end
 end

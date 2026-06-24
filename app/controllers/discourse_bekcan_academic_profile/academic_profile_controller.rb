@@ -1,4 +1,4 @@
-module ::DiscourseAcademicProfile
+module ::DiscourseBekcanAcademicProfile
   class AcademicProfileController < ::Admin::AdminController
     def index
       titles = SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?)
@@ -7,7 +7,7 @@ module ::DiscourseAcademicProfile
     end
 
     def sync
-      ::DiscourseAcademicProfile::UserFieldBuilder.new.call
+      ::DiscourseBekcanAcademicProfile::UserFieldBuilder.new.call
       mappings = params[:mappings] || {}
       # Veri güvenliği: sadece tamsayıları işle
       clean_mappings = mappings.transform_values { |v| Array(v).map(&:to_i).reject(&:zero?) }
