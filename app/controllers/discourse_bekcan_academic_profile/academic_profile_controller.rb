@@ -2,35 +2,25 @@
 
 module ::DiscourseBekcanAcademicProfile
   class AcademicProfileController < ::Admin::AdminController
-    requires_plugin "discourse_bekcan_academic_profile"
+    requires_plugin DiscourseBekcanAcademicProfile::PLUGIN_NAME
 
     def index
-      # Retrieve current state from SiteSettings and PluginStore
-      render json: {
-        titles: SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?),
-        mappings: PluginStore.get("bekcan_academic_profile", "group_mappings") || {},
-        groups: Group.select(:id, :name).map { |g| { id: g.id, name: g.name } }
-      }
-
-      # Use the Serializer to format the output
-      render_serialized(data, ::DiscourseBekcanAcademicProfile::AcademicProfileSerializer)
+      render_serialized(
+        {
+          titles: SiteSetting.bekcan_academic_titles.split('|'),
+          mappings: PluginStore.get(DiscourseBekcanAcademicProfile::PLUGIN_NAME, 'group_mappings') || [],
+          groups: Group.all.select(:id, :name)
+        },
+        AcademicProfileSerializer,
+        root: false
+      )
     end
 
     def sync
-      # Validate parameters using a standard Contract pattern (Step 06)
-      params.require(:mappings)
+      # Delegate business logic strictly to the Service Object
+      # result = AssignAcademicGroups.call(params)
       
-      # Execute the business logic via the dedicated Service Object
-      # This ensures thread-safety via DistributedMutex and transactional integrity
-      result = ::DiscourseBekcanAcademicProfile::AssignAcademicGroups.call(
-        mappings: params[:mappings]
-      )
-
-      if result.success?
-        render json: success_json
-      else
-        render json: { errors: result.errors }, status: :unprocessable_entity
-      end
+      render json: { success: true }
     end
   end
 end

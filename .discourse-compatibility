@@ -1,0 +1,4 @@
+# Fallback mapping for older Discourse instances lacking Glimmer/FormKit support
+discourse_versions:
+  "< 3.2.0.beta1":
+    version: "1.0.0" # Target a legacy commit hash or tag if applicable
