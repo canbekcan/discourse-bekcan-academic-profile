@@ -1,44 +1,37 @@
+# frozen_string_literal: true
+
 module ::DiscourseBekcanAcademicProfile
   class UserFieldBuilder
     def call
       return unless SiteSetting.bekcan_academic_profile_enabled
 
+      # "name" alanları veritabanında anahtardır, asla değiştirilmemelidir.
+      # Görünür metinler için description alanına i18n anahtarı atıyoruz.
+      fields_config = {
+        "academic_title" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_title_desc" },
+        "academic_field" => { type: "dropdown", desc: "bekcan_academic_profile.user_fields.academic_field_desc" },
+        "scientific_disciplines" => { type: "text", desc: "bekcan_academic_profile.user_fields.scientific_disciplines_desc" }
+      }
+
       DistributedMutex.synchronize("bekcan_academic_fields_init") do
         ActiveRecord::Base.transaction do
-          
-          # 1. Akademik Ünvan (Diğer eklentileri çökertmemek için find_or_initialize_by)
-          title_field = UserField.find_or_initialize_by(name: "academic_title")
-          title_field.field_type = "dropdown"
-          title_field.description = "academic_title" # İngilizce veya Türkçe UI tarafında çevrilecek
-          title_field.editable = true
-          title_field.show_on_profile = true
-          title_field.show_on_user_card = true
-          title_field.save!
-
-          configured_titles = SiteSetting.bekcan_academic_titles.split("|").map(&:strip).reject(&:blank?)
-          configured_titles.each { |key| UserFieldOption.find_or_create_by!(user_field_id: title_field.id, value: key) }
-          UserFieldOption.where(user_field_id: title_field.id).each { |opt| opt.destroy! unless configured_titles.include?(opt.value) }
-
-          # 2. Akademik Alan
-          field_acc = UserField.find_or_initialize_by(name: "academic_field")
-          field_acc.field_type = "dropdown"
-          field_acc.description = "academic_field"
-          field_acc.editable = true
-          field_acc.show_on_profile = true
-          field_acc.save!
-
-          # 3. Bilim Dalları
-          field_disc = UserField.find_or_initialize_by(name: "scientific_disciplines")
-          field_disc.field_type = "text"
-          field_disc.description = "scientific_disciplines"
-          field_disc.editable = true
-          field_disc.show_on_profile = true
-          field_disc.save!
-
+          fields_config.each do |key, config|
+            field = UserField.find_or_initialize_by(name: key)
+            
+            # Eğer alan mevcut değilse (yeni oluşturuluyorsa) değerleri set et
+            if field.new_record?
+              field.field_type = config[:type]
+              field.description = config[:desc]
+              field.editable = true
+              field.show_on_profile = true
+              field.show_on_user_card = true
+              field.save!
+            end
+          end
         end
       end
-    rescue StandardError => e
-      Discourse.warn_exception(e, message: "Academic fields build failed.")
+    rescue => e
+      Rails.logger.error("Academic Field Builder Error: #{e.message}")
     end
   end
 end
