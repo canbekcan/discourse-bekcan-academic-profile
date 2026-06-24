@@ -25,3 +25,7 @@ tr_TR:
         plugins:
           academic_profile:
             title: "Akademik Profil"
+  admin:
+    plugins:
+      academic_profile:
+        title: "Akademik Profil"
